@@ -75,7 +75,7 @@ export function PostHeader() {
           <span>a day ago</span>
         </div>
 
-        <span>asdfasdfasdfasdf</span>
+        <span>asdfassdfsdfdfasdfasdf</span>
       </div>
     </div>
   );
