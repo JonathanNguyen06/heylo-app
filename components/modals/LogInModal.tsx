@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { closeLogInModal, openLogInModal } from "@/redux/slices/modalSlice";
 import { EyeIcon, EyeSlashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
-export default function SignupModal() {
+export default function LogInModal() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = () => {

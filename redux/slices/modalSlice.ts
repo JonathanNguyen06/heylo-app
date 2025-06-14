@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  signupModalOpen: false,
+  signUpModalOpen: false,
   logInModalOpen: false,
 };
 
@@ -10,16 +10,16 @@ const modalSlice = createSlice({
   initialState,
   reducers: {
     openSignUpModal: (state) => {
-      state.signupModalOpen = true;
+      state.signUpModalOpen = true;
     },
     closeSignUpModal: (state) => {
-      state.signupModalOpen = false;
+      state.signUpModalOpen = false;
     },
     openLogInModal: (state) => {
-      state.signupModalOpen = true;
+      state.logInModalOpen = true;
     },
     closeLogInModal: (state) => {
-      state.signupModalOpen = false;
+      state.logInModalOpen = false;
     },
   },
 });
