@@ -9,7 +9,7 @@ import {
 
 export default function Post() {
   return (
-    <div>
+    <div className="border-b border-gray-200">
       <PostHeader />
       <div className="ml-16 p-3 flex space-x-14">
         <div className="relative">

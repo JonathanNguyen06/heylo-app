@@ -9,6 +9,8 @@ import { EyeIcon, EyeSlashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "@/firebase";
 import { signInUser } from "@/redux/slices/userSlice";
@@ -16,6 +18,7 @@ import { signInUser } from "@/redux/slices/userSlice";
 export default function SignUpModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -35,6 +38,27 @@ export default function SignUpModal() {
       email,
       password
     );
+
+    await updateProfile(userCredentials.user, {
+      displayName: name,
+    });
+
+    dispatch(
+      signInUser({
+        name: userCredentials.user.displayName,
+        username: userCredentials.user.email!.split("@")[0],
+        email: userCredentials.user.email,
+        uid: userCredentials.user.uid,
+      })
+    );
+  }
+
+  async function handleGuestLogIn() {
+    await signInWithEmailAndPassword(
+      auth,
+      "guest12345@gmail.com",
+      "guest1234567"
+    );
   }
 
   useEffect(() => {
@@ -46,7 +70,7 @@ export default function SignUpModal() {
       //Handle redux actions
       dispatch(
         signInUser({
-          name: "",
+          name: currentUser.displayName,
           username: currentUser.email!.split("@")[0],
           email: currentUser.email,
           uid: currentUser.uid,
@@ -90,6 +114,8 @@ export default function SignUpModal() {
                 transition"
                 type="text"
                 placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               ></input>
               <input
                 className="w-full h-[54px] border border-gray-200
@@ -132,6 +158,7 @@ export default function SignUpModal() {
             <button
               className="bg-[#f4af01] text-white h-[48px]
                 rounded-full shadow-md w-full"
+              onClick={() => handleGuestLogIn()}
             >
               Log In As Guest
             </button>

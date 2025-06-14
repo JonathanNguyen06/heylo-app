@@ -6,9 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { closeLogInModal, openLogInModal } from "@/redux/slices/modalSlice";
 import { EyeIcon, EyeSlashIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/firebase";
 
 export default function LogInModal() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -17,6 +21,18 @@ export default function LogInModal() {
   const isOpen = useSelector((state: RootState) => state.modals.logInModalOpen);
 
   const dispatch: AppDispatch = useDispatch();
+
+  async function handleLogIn() {
+    await signInWithEmailAndPassword(auth, email, password);
+  }
+
+  async function handleGuestLogIn() {
+    await signInWithEmailAndPassword(
+      auth,
+      "guest12345@gmail.com",
+      "guest1234567"
+    );
+  }
 
   return (
     <>
@@ -43,7 +59,7 @@ export default function LogInModal() {
             className="w-7 mt-5 ms-5 cursor-pointer"
             onClick={() => dispatch(closeLogInModal())}
           />
-          <form className="pt-10 pb-20 px-4 sm:px-20">
+          <div className="pt-10 pb-20 px-4 sm:px-20">
             <h1 className="text-3xl font-bold mb-10">Log into Heylo</h1>
             <div className="w-full space-y-5 mb-10">
               <input
@@ -52,6 +68,8 @@ export default function LogInModal() {
                 transition"
                 type="email"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               ></input>
               <div
                 className="w-full h-[54px] border border-gray-200
@@ -62,6 +80,8 @@ export default function LogInModal() {
                   className="w-full h-full ps-3 outline-none"
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 ></input>
                 <div
                   className="w-7 h-7 text-gray-400 cursor-pointer
@@ -75,6 +95,7 @@ export default function LogInModal() {
             <button
               className="bg-[#f4af01] text-white h-[48px]
                 rounded-full shadow-md mb-5 w-full"
+              onClick={() => handleLogIn()}
             >
               Log In
             </button>
@@ -82,10 +103,11 @@ export default function LogInModal() {
             <button
               className="bg-[#f4af01] text-white h-[48px]
                 rounded-full shadow-md w-full"
+              onClick={() => handleGuestLogIn()}
             >
               Log In As Guest
             </button>
-          </form>
+          </div>
         </div>
       </Modal>
     </>

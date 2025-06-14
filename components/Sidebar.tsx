@@ -9,6 +9,10 @@ import {
   EllipsisHorizontalCircleIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase";
+import { useDispatch } from "react-redux";
+import SidebarUserInfo from "./SidebarUserInfo";
 
 export default function Sidebar() {
   return (
@@ -16,7 +20,7 @@ export default function Sidebar() {
       className="hidden sm:flex flex-col sticky top-0 h-screen
     p-3 xl:ml-20 xl:mr-10"
     >
-      <div className="relative h-full">
+      <div className="relative h-full flex flex-col items-center">
         <div className="py-3">
           <Image
             src="/assets/heylo-icon.png"
@@ -45,7 +49,8 @@ export default function Sidebar() {
             Say Heylo
           </button>
         </ul>
-        <div className="absolute bottom-0">User Info</div>
+
+        <SidebarUserInfo />
       </div>
     </nav>
   );

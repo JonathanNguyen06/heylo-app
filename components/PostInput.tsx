@@ -10,7 +10,7 @@ import {
 
 export default function PostInput() {
   return (
-    <div className="flex space-x-5 p-3">
+    <div className="flex space-x-5 p-3 border-b border-gray-200">
       <Image
         src={"/assets/heylo-icon.png"}
         width={38}
@@ -26,7 +26,7 @@ export default function PostInput() {
         "
           placeholder="What's happening?"
         />
-        <div className="flex justify-between pt-5">
+        <div className="flex justify-between pt-5 border-t border-gray-100">
           <div className="flex space-x-1.5">
             <PhotoIcon className="w-[22px] h-[22px] text-[#f4af01]" />
             <ChartBarIcon className="w-[22px] h-[22px] text-[#f4af01]" />
