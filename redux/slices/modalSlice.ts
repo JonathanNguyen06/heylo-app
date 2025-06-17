@@ -10,6 +10,7 @@ const initialState = {
     id: "",
     text: "",
   },
+  userInfoPopperOpen: false,
 };
 
 const modalSlice = createSlice({

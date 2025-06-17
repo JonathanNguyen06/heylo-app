@@ -35,7 +35,6 @@ export default function Sidebar() {
           <SidebarLink Icon={BellIcon} text="Notifications"></SidebarLink>
           <SidebarLink Icon={InboxIcon} text="Messages"></SidebarLink>
           <SidebarLink Icon={BookmarkIcon} text="Bookmarks"></SidebarLink>
-          <SidebarLink Icon={UserIcon} text="Profile"></SidebarLink>
           <SidebarLink
             Icon={EllipsisHorizontalCircleIcon}
             text="More"

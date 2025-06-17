@@ -13,7 +13,10 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useDispatch } from "react-redux";
-import { closeLoadingScreen } from "@/redux/slices/loadingSlice";
+import {
+  closeLoadingScreen,
+  openLoadingScreen,
+} from "@/redux/slices/loadingSlice";
 
 export default function Postfeed() {
   const [posts, setPosts] = useState<
@@ -23,6 +26,7 @@ export default function Postfeed() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(openLoadingScreen());
     const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {

@@ -11,9 +11,12 @@ const loadingSlice = createSlice({
     closeLoadingScreen: (state) => {
       state.loadingScreenOpen = false;
     },
+    openLoadingScreen: (state) => {
+      state.loadingScreenOpen = true;
+    },
   },
 });
 
-export const { closeLoadingScreen } = loadingSlice.actions;
+export const { closeLoadingScreen, openLoadingScreen } = loadingSlice.actions;
 
 export default loadingSlice.reducer;
