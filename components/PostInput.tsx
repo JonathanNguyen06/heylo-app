@@ -20,7 +20,7 @@ import {
 import { db } from "@/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { closeCommentModal } from "@/redux/slices/modalSlice";
+import { closeCommentModal, openLogInModal } from "@/redux/slices/modalSlice";
 
 interface PostInputProps {
   insideModal?: boolean;
@@ -35,6 +35,11 @@ export default function PostInput({ insideModal }: PostInputProps) {
   const dispatch = useDispatch();
 
   async function sendPost() {
+    if (!user.username) {
+      dispatch(openLogInModal());
+      return;
+    }
+
     await addDoc(collection(db, "posts"), {
       text: text,
       name: user.name,
@@ -63,7 +68,7 @@ export default function PostInput({ insideModal }: PostInputProps) {
   }
 
   return (
-    <div className="flex space-x-5 p-3 border-b border-gray-200">
+    <div className="flex space-x-5 p-3 border-b border-gray-100">
       <Image
         src={
           insideModal ? "/assets/guest-profile.png" : "/assets/heylo-icon.png"
@@ -83,7 +88,7 @@ export default function PostInput({ insideModal }: PostInputProps) {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <div className="flex justify-between pt-5 border-t border-gray-100">
+        <div className="flex justify-between pt-5">
           <div className="flex space-x-1.5">
             <PhotoIcon className="w-[22px] h-[22px] text-[#f4af01]" />
             <ChartBarIcon className="w-[22px] h-[22px] text-[#f4af01]" />

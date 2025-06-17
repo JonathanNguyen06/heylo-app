@@ -8,11 +8,25 @@ import {
   ChatBubbleOvalLeftEllipsisIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
-import { DocumentData, Timestamp } from "firebase/firestore";
+import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  DocumentData,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import Moment from "react-moment";
-import { openCommentModal, setCommentDetails } from "@/redux/slices/modalSlice";
-import { useDispatch } from "react-redux";
+import {
+  openCommentModal,
+  openLogInModal,
+  setCommentDetails,
+} from "@/redux/slices/modalSlice";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
+import { RootState } from "@/redux/store";
+import { db } from "@/firebase";
 
 interface PostProps {
   data: DocumentData;
@@ -21,9 +35,29 @@ interface PostProps {
 
 export default function Post({ data, id }: PostProps) {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+
+  async function likePost() {
+    if (!user.username) {
+      dispatch(openLogInModal());
+      return;
+    }
+
+    const postRef = doc(db, "posts", id);
+
+    if (data.likes.includes(user.uid)) {
+      await updateDoc(postRef, {
+        likes: arrayRemove(user.uid),
+      });
+    } else {
+      await updateDoc(postRef, {
+        likes: arrayUnion(user.uid),
+      });
+    }
+  }
 
   return (
-    <div className="border-b border-gray-200">
+    <div className="border-b border-gray-100">
       <Link href={"/" + id}>
         <PostHeader
           username={data.username}
@@ -38,6 +72,11 @@ export default function Post({ data, id }: PostProps) {
             className="w-[22px] h-[22px] transition
             cursor-pointer hover:text-[#f4af01]"
             onClick={() => {
+              if (!user.username) {
+                dispatch(openLogInModal());
+                return;
+              }
+
               dispatch(
                 setCommentDetails({
                   name: data.name,
@@ -49,14 +88,30 @@ export default function Post({ data, id }: PostProps) {
               dispatch(openCommentModal());
             }}
           />
-          <span className="absolute text-xs top-1 -right-3">2</span>
+          {data.comments.length > 0 && (
+            <span className="absolute text-xs top-1 -right-3">
+              {data.comments.length}
+            </span>
+          )}
         </div>
         <div className="relative">
-          <HeartIcon
-            className="w-[22px] h-[22px] transition
-            cursor-pointer hover:text-[#f4af01]"
-          />
-          <span className="absolute text-xs top-1 -right-3">2</span>
+          {data.likes.includes(user.uid) ? (
+            <HeartSolidIcon
+              className="w-[22px] h-[22px] cursor-pointer
+            text-pink-500 transition"
+              onClick={() => likePost()}
+            />
+          ) : (
+            <HeartIcon
+              className="w-[22px] h-[22px] transition cursor-pointer hover:text-pink-500"
+              onClick={() => likePost()}
+            />
+          )}
+          {data.likes.length > 0 && (
+            <span className="absolute text-xs top-1 -right-3">
+              {data.likes.length}
+            </span>
+          )}
         </div>
         <div className="relative">
           <ChartBarIcon

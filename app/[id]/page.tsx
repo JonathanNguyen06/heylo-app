@@ -14,8 +14,31 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { PostHeader } from "@/components/Post";
+import { getDoc, doc, collection } from "firebase/firestore";
+import { db } from "@/firebase";
 
-export default function page() {
+const fetchPost = async (id: string) => {
+  const postRef = doc(db, "posts", id);
+  const postSnap = await getDoc(postRef);
+  return postSnap.data();
+};
+
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+interface Comment {
+  name: string;
+  username: string;
+  text: string;
+}
+
+export default async function page({ params }: PageProps) {
+  const { id } = params;
+  const post = await fetchPost(id);
+
   return (
     <>
       <div
@@ -60,7 +83,7 @@ export default function page() {
                     min-[400px]:max-w-[100px] 
                     min-[500px]:max-w-[140px] sm:max-w-[160px]"
                   >
-                    Name
+                    {post?.name}
                   </span>
                   <span
                     className="text-[#707e89] whitespace-nowrap overflow-hidden 
@@ -68,16 +91,16 @@ export default function page() {
                     min-[400px]:max-w-[100px] 
                     min-[500px]:max-w-[140px] sm:max-w-[160px]"
                   >
-                    Username
+                    {post?.username}
                   </span>
                 </div>
               </div>
               <EllipsisHorizontalIcon className="w-5 h-5" />
             </div>
-            <span className="text-[15px]">Post Text</span>
+            <span className="text-[15px]">{post?.text}</span>
           </div>
           <div className="border-b border-gray-100 p-3 text-[15px]">
-            <span className="font-bold">0</span> likes
+            <span className="font-bold">{post?.likes.length}</span> likes
           </div>
           <div
             className="border-b border-gray-100 p-3 text-[15px]
@@ -100,20 +123,26 @@ export default function page() {
             text-[#707389] cursor-not-allowed"
             />
           </div>
-          <Comment />
+          {post?.comments.map((comment: Comment) => (
+            <Comment
+              name={comment.name}
+              username={comment.username}
+              text={comment.text}
+            />
+          ))}
         </div>
+        <Widgets />
       </div>
-      <Widgets />
 
       <SignupPrompt />
     </>
   );
 }
 
-function Comment() {
+function Comment({ name, username, text }: Comment) {
   return (
     <div className="border-b border-gray-100">
-      <PostHeader name="asdfasdf" username="asdfasdf123" text="kjdfkdjfk" />
+      <PostHeader name={name} username={username} text={text} />
       <div className="flex space-x-14 p-3 mx-16">
         <ChatBubbleOvalLeftEllipsisIcon
           className="w-[22px] h-[22px]

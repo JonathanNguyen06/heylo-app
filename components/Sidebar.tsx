@@ -20,7 +20,7 @@ export default function Sidebar() {
       className="hidden sm:flex flex-col sticky top-0 h-screen
     p-3 xl:ml-20 xl:mr-10"
     >
-      <div className="relative h-full flex flex-col items-center">
+      <div className="relative h-full flex flex-col">
         <div className="py-3">
           <Image
             src="/assets/heylo-icon.png"

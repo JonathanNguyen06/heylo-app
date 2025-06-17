@@ -12,7 +12,7 @@ export default function Widgets() {
     ps-10"
     >
       <div
-        className="flex bg-[#dbe4e4] text-[#89959d] items-center
+        className="flex bg-[#f4f7f7] text-[#89959d] items-center
       space-x-3 rounded-full pl-5 h-[44px]"
       >
         <MagnifyingGlassIcon className="w-[20px] h-[20px]" />
@@ -23,7 +23,7 @@ export default function Widgets() {
         ></input>
       </div>
 
-      <div className="bg-[#dbe4e4] rounded-xl p-3">
+      <div className="bg-[#f4f7f7] rounded-xl p-3">
         <h1 className="font-xl font-bold mb-2">What's Happening</h1>
 
         <div className="flex flex-col py-3 space-y-0.5">
@@ -63,7 +63,7 @@ export default function Widgets() {
         </div>
       </div>
 
-      <div className="bg-[#dbe4e4] rounded-xl p-3">
+      <div className="bg-[#f4f7f7] rounded-xl p-3">
         <h1 className="font-xl font-bold mb-2">Who to Follow</h1>
 
         <div className="justify-between flex items-center py-3">

@@ -12,11 +12,15 @@ import {
   QueryDocumentSnapshot,
 } from "firebase/firestore";
 import { db } from "@/firebase";
+import { useDispatch } from "react-redux";
+import { closeLoadingScreen } from "@/redux/slices/loadingSlice";
 
 export default function Postfeed() {
   const [posts, setPosts] = useState<
     QueryDocumentSnapshot<DocumentData, DocumentData>[]
   >([]);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
@@ -25,6 +29,8 @@ export default function Postfeed() {
       const snapshotDocs = snapshot.docs;
 
       setPosts(snapshotDocs);
+
+      dispatch(closeLoadingScreen());
     });
 
     return unsubscribe;
