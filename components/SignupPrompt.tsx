@@ -8,13 +8,15 @@ import { useSelector } from "react-redux";
 
 export default function SignupPrompt() {
   const name = useSelector((state: RootState) => state.user.name);
+  const username = useSelector((state: RootState) => state.user.username);
 
   return (
-    !name && (
+    !name &&
+    !username && (
       <div
         className="fixed w-full h-[80px] bg-[#f4af01] bottom-0
         flex justify-center items-center md:space-x-5 lg:justify-between
-        lg:px-20 xl:px-40 2xl:px-80"
+        lg:px-20 xl:px-40 2xl:px-80 z-50"
       >
         <div className="hidden md:flex flex-col text-white">
           <span className="font-bold text-xl">Say Heylo to everyone</span>

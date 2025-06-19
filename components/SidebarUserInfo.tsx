@@ -9,10 +9,12 @@ import { signOutUser } from "@/redux/slices/userSlice";
 import { closeLogInModal, closeSignUpModal } from "@/redux/slices/modalSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { ClickAwayListener, Popper } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 export default function SidebarUserInfo() {
   const dispatch: AppDispatch = useDispatch();
   const user = useSelector((state: RootState) => state.user);
+  const router = useRouter();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -39,6 +41,8 @@ export default function SidebarUserInfo() {
       .catch((err) => console.error("Sign out failed:", err));
     // Close the Popper after successful sign out
     setIsOpen(false);
+
+    router.push("/");
   };
 
   const handleClickAway = (event: MouseEvent | TouchEvent) => {
@@ -70,7 +74,7 @@ export default function SidebarUserInfo() {
             {user.name}
           </span>
           <span className="whitespace-nowrap text-ellipsis overflow-hidden text-gray-500">
-            {user.username}
+            @{user.username}
           </span>
         </div>
       </div>
@@ -86,7 +90,9 @@ export default function SidebarUserInfo() {
             </div>
             <div
               className="w-full text-center py-2 hover:bg-gray-200 cursor-pointer"
-              onClick={handleSignOut}
+              onClick={() => {
+                handleSignOut();
+              }}
             >
               Sign Out
             </div>

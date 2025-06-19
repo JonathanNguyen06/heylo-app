@@ -19,6 +19,7 @@ export default function SignUpModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [authChecked, setAuthChecked] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -76,6 +77,7 @@ export default function SignUpModal() {
           uid: currentUser.uid,
         })
       );
+      setAuthChecked(true);
     });
 
     return unsubscribe;

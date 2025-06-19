@@ -170,7 +170,7 @@ export function PostHeader({
             inline-block max-w-[60px] min-[400px]:max-w-[100px] 
             min-[500px]:max-w-[140px] sm:max-w-[160px]"
           >
-            {username}
+            @{username}
           </span>
           {timestamp && (
             <>

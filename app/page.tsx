@@ -13,13 +13,13 @@ export default function Home() {
         className="text-[#0f1419] min-h-screen border-2
     max-w-[1400px] mx-auto flex justify-center"
       >
+        <SignupPrompt />
         <Sidebar />
         <Postfeed />
         <Widgets />
       </div>
 
       <CommentModal />
-      <SignupPrompt />
       <LoadingScreen />
     </>
   );

@@ -14,8 +14,19 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { PostHeader } from "@/components/Post";
-import { getDoc, doc, collection } from "firebase/firestore";
+import {
+  getDoc,
+  doc,
+  collection,
+  updateDoc,
+  arrayRemove,
+  arrayUnion,
+} from "firebase/firestore";
 import { db } from "@/firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { openLogInModal } from "@/redux/slices/modalSlice";
+import ClickedPost from "@/components/ClickedPost";
 
 const fetchPost = async (id: string) => {
   const postRef = doc(db, "posts", id);
@@ -63,66 +74,7 @@ export default async function page({ params }: PageProps) {
             Heylo
           </div>
 
-          <div
-            className="flex flex-col p-3 space-y-5 border-b 
-          border-gray-100"
-          >
-            <div className="flex justify-between items-center mb-1.5">
-              <div className="flex space-x-3">
-                <Image
-                  src={"/assets/guest-profile.png"}
-                  width={44}
-                  height={44}
-                  alt="Profile Picture"
-                  className="w-[44px] h-[44px]"
-                />
-                <div className="flex flex-col text-[15px]">
-                  <span
-                    className="font-bold whitespace-nowrap overflow-hidden 
-                    text-ellipsis inline-block max-w-[60px] 
-                    min-[400px]:max-w-[100px] 
-                    min-[500px]:max-w-[140px] sm:max-w-[160px]"
-                  >
-                    {post?.name}
-                  </span>
-                  <span
-                    className="text-[#707e89] whitespace-nowrap overflow-hidden 
-                    text-ellipsis inline-block max-w-[60px] 
-                    min-[400px]:max-w-[100px] 
-                    min-[500px]:max-w-[140px] sm:max-w-[160px]"
-                  >
-                    {post?.username}
-                  </span>
-                </div>
-              </div>
-              <EllipsisHorizontalIcon className="w-5 h-5" />
-            </div>
-            <span className="text-[15px]">{post?.text}</span>
-          </div>
-          <div className="border-b border-gray-100 p-3 text-[15px]">
-            <span className="font-bold">{post?.likes.length}</span> likes
-          </div>
-          <div
-            className="border-b border-gray-100 p-3 text-[15px]
-          flex justify-evenly"
-          >
-            <ChatBubbleOvalLeftEllipsisIcon
-              className="w-[22px] h-[22px]
-            text-[#707389] cursor-not-allowed"
-            />
-            <HeartIcon
-              className="w-[22px] h-[22px]
-            text-[#707389] cursor-not-allowed"
-            />
-            <ChartBarIcon
-              className="w-[22px] h-[22px]
-            text-[#707389] cursor-not-allowed"
-            />
-            <ArrowUpTrayIcon
-              className="w-[22px] h-[22px]
-            text-[#707389] cursor-not-allowed"
-            />
-          </div>
+          <ClickedPost post={post} id={id} />
           {post?.comments.map((comment: Comment) => (
             <Comment
               name={comment.name}
