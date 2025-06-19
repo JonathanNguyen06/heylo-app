@@ -22,6 +22,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { openLogInModal } from "@/redux/slices/modalSlice";
 import { db } from "@/firebase";
+import {
+  closeLoadingScreen,
+  openLoadingScreen,
+} from "@/redux/slices/loadingSlice";
+import LoadingScreen from "./LoadingScreen";
 
 interface ClickedPostPostProps {
   post: DocumentData | undefined;
@@ -53,11 +58,30 @@ export default function ClickedPost({ post, id }: ClickedPostPostProps) {
   }
 
   useEffect(() => {
-    const postRef = doc(db, "posts", id);
-    const unsubscribe = onSnapshot(postRef, (docSnap) => {
-      setPostData(docSnap.data());
-    });
-    return () => unsubscribe(); // clean up
+    const navEntry = performance.getEntriesByType(
+      "navigation"
+    )[0] as PerformanceNavigationTiming;
+
+    const isFirstLoad = navEntry.type === "reload";
+
+    if (isFirstLoad) {
+      dispatch(openLoadingScreen());
+
+      const postRef = doc(db, "posts", id);
+      const unsubscribe = onSnapshot(postRef, (docSnap) => {
+        setPostData(docSnap.data());
+        dispatch(closeLoadingScreen());
+      });
+
+      return () => unsubscribe();
+    } else {
+      const postRef = doc(db, "posts", id);
+      const unsubscribe = onSnapshot(postRef, (docSnap) => {
+        setPostData(docSnap.data());
+      });
+
+      return () => unsubscribe();
+    }
   }, [id]);
 
   return (
@@ -131,6 +155,7 @@ export default function ClickedPost({ post, id }: ClickedPostPostProps) {
             text-[#707389] cursor-not-allowed"
         />
       </div>
+      <LoadingScreen />
     </>
   );
 }

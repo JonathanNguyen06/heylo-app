@@ -27,6 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { openLogInModal } from "@/redux/slices/modalSlice";
 import ClickedPost from "@/components/ClickedPost";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const fetchPost = async (id: string) => {
   const postRef = doc(db, "posts", id);
