@@ -5,7 +5,6 @@ import {
   BellIcon,
   InboxIcon,
   BookmarkIcon,
-  UserIcon,
   EllipsisHorizontalCircleIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -13,6 +12,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/firebase";
 import { useDispatch } from "react-redux";
 import SidebarUserInfo from "./SidebarUserInfo";
+import Link from "next/link";
 
 export default function Sidebar() {
   return (
@@ -34,7 +34,9 @@ export default function Sidebar() {
           <SidebarLink Icon={HashtagIcon} text="Explore"></SidebarLink>
           <SidebarLink Icon={BellIcon} text="Notifications"></SidebarLink>
           <SidebarLink Icon={InboxIcon} text="Messages"></SidebarLink>
-          <SidebarLink Icon={BookmarkIcon} text="Bookmarks"></SidebarLink>
+          <Link href={"/bookmarks"}>
+            <SidebarLink Icon={BookmarkIcon} text="Bookmarks"></SidebarLink>
+          </Link>
           <SidebarLink
             Icon={EllipsisHorizontalCircleIcon}
             text="More"

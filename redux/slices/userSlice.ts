@@ -5,6 +5,7 @@ const initialState = {
   username: "",
   email: "",
   uid: "",
+  bookmarks: [],
 };
 
 const userSlice = createSlice({
@@ -16,6 +17,7 @@ const userSlice = createSlice({
       state.username = action.payload.username;
       state.email = action.payload.email;
       state.uid = action.payload.uid;
+      state.bookmarks = action.payload.bookmarks;
     },
 
     signOutUser: (state) => {
@@ -23,6 +25,7 @@ const userSlice = createSlice({
       state.username = "";
       state.email = "";
       state.uid = "";
+      state.bookmarks = [];
     },
   },
 });

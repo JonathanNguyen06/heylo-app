@@ -11,6 +11,7 @@ const initialState = {
     text: "",
   },
   userInfoPopperOpen: false,
+  deleteModalOpen: false,
 };
 
 const modalSlice = createSlice({
@@ -41,6 +42,12 @@ const modalSlice = createSlice({
       state.commentPostDetails.id = action.payload.id;
       state.commentPostDetails.text = action.payload.text;
     },
+    openDeleteModal: (state) => {
+      state.deleteModalOpen = true;
+    },
+    closeDeleteModal: (state) => {
+      state.deleteModalOpen = false;
+    },
   },
 });
 
@@ -52,6 +59,8 @@ export const {
   openCommentModal,
   closeCommentModal,
   setCommentDetails,
+  openDeleteModal,
+  closeDeleteModal,
 } = modalSlice.actions;
 
 export default modalSlice.reducer;

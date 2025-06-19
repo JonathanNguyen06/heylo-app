@@ -83,7 +83,7 @@ export default function SidebarUserInfo() {
         <ClickAwayListener onClickAway={handleClickAway}>
           <div
             ref={popperRef}
-            className="border rounded-xl w-fit items-center justify-center flex flex-col shadow-md xl:w-[240px] text-sm xl:text-[17px] overflow-hidden bg-white"
+            className="border rounded-xl  sm:w-[80px] m:w-[120px] items-center justify-center flex flex-col shadow-md xl:w-[240px] text-sm xl:text-[17px] overflow-hidden bg-white"
           >
             <div className="w-full text-center py-2 hover:bg-gray-200 cursor-pointer border-b">
               Profile
