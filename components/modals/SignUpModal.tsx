@@ -75,6 +75,7 @@ export default function SignUpModal() {
           username: currentUser.email!.split("@")[0],
           email: currentUser.email,
           uid: currentUser.uid,
+          bookmarks,
         })
       );
       setAuthChecked(true);

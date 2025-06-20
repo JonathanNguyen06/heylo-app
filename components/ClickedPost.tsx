@@ -9,6 +9,7 @@ import {
   doc,
   DocumentData,
   onSnapshot,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import {
@@ -90,6 +91,20 @@ export default function ClickedPost({ post, id }: ClickedPostPostProps) {
     }
   }
 
+  async function bookmarkPost() {
+    if (!user.username) {
+      dispatch(openLogInModal());
+      return;
+    }
+    await setDoc(
+      doc(db, "bookmarks", user.uid),
+      {
+        bookmarks: arrayUnion(id),
+      },
+      { merge: true }
+    );
+  }
+
   useEffect(() => {
     const navEntry = performance.getEntriesByType(
       "navigation"
@@ -160,7 +175,12 @@ export default function ClickedPost({ post, id }: ClickedPostPostProps) {
                 ref={popperRef}
                 className="border rounded-xl w-fit items-center justify-center flex flex-col shadow-md xl:w-fit text-sm xl:text-[14px] overflow-hidden bg-white"
               >
-                <div className="w-full text-center py-2 hover:bg-gray-100 cursor-pointer border-b flex items-center justify-center">
+                <div
+                  className="w-full text-center py-2 hover:bg-gray-100 cursor-pointer border-b flex items-center justify-center"
+                  onClick={() => {
+                    bookmarkPost();
+                  }}
+                >
                   <BookmarkIcon className="hidden md:w-[30px] md:h-[14px] md:flex mr-0.5" />
                   <span className="md:mr-3 px-2 md:px-0">Bookmark</span>
                 </div>

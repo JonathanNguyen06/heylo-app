@@ -30,7 +30,9 @@ export default function Sidebar() {
           />
         </div>
         <ul>
-          <SidebarLink Icon={HomeIcon} text="Home"></SidebarLink>
+          <Link href="/">
+            <SidebarLink Icon={HomeIcon} text="Home"></SidebarLink>
+          </Link>
           <SidebarLink Icon={HashtagIcon} text="Explore"></SidebarLink>
           <SidebarLink Icon={BellIcon} text="Notifications"></SidebarLink>
           <SidebarLink Icon={InboxIcon} text="Messages"></SidebarLink>
