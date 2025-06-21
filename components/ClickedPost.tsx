@@ -23,7 +23,11 @@ import {
 import { HeartIcon as HeartSolidIcon } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import { openLogInModal } from "@/redux/slices/modalSlice";
+import {
+  openCommentModal,
+  openLogInModal,
+  setCommentDetails,
+} from "@/redux/slices/modalSlice";
 import { db } from "@/firebase";
 import {
   closeLoadingScreen,
@@ -181,7 +185,23 @@ export default function ClickedPost({ post, id }: ClickedPostPostProps) {
       >
         <ChatBubbleOvalLeftEllipsisIcon
           className="w-[22px] h-[22px]
-            text-[#707389] cursor-not-allowed"
+            text-black transition cursor-pointer hover:text-[#f4af01]"
+          onClick={() => {
+            if (!user.username) {
+              dispatch(openLogInModal());
+              return;
+            }
+
+            dispatch(
+              setCommentDetails({
+                name: postData?.name,
+                username: postData?.username,
+                id: id,
+                text: postData?.text,
+              })
+            );
+            dispatch(openCommentModal());
+          }}
         />
         {postData?.likes.includes(user.uid) ? (
           <HeartSolidIcon

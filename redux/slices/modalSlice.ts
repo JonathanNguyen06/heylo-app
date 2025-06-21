@@ -9,6 +9,7 @@ const initialState = {
     username: "",
     id: "",
     text: "",
+    likes: [],
   },
   userInfoPopperOpen: false,
   deleteModalOpen: false,
@@ -41,6 +42,7 @@ const modalSlice = createSlice({
       state.commentPostDetails.username = action.payload.username;
       state.commentPostDetails.id = action.payload.id;
       state.commentPostDetails.text = action.payload.text;
+      state.commentPostDetails.likes = action.payload.likes;
     },
     openDeleteModal: (state) => {
       state.deleteModalOpen = true;

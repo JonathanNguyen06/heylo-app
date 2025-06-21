@@ -28,6 +28,9 @@ import { RootState } from "@/redux/store";
 import { openLogInModal } from "@/redux/slices/modalSlice";
 import ClickedPost from "@/components/ClickedPost";
 import LoadingScreen from "@/components/LoadingScreen";
+import CommentModal from "@/components/modals/CommentModal";
+import Comment from "@/components/Comment";
+import CommentFeed from "@/components/CommentFeed";
 
 const fetchPost = async (id: string) => {
   const postRef = doc(db, "posts", id);
@@ -39,12 +42,6 @@ interface PageProps {
   params: {
     id: string;
   };
-}
-
-interface Comment {
-  name: string;
-  username: string;
-  text: string;
 }
 
 export default async function page({ params }: PageProps) {
@@ -76,44 +73,13 @@ export default async function page({ params }: PageProps) {
           </div>
 
           <ClickedPost post={post} id={id} />
-          {post?.comments.map((comment: Comment) => (
-            <Comment
-              name={comment.name}
-              username={comment.username}
-              text={comment.text}
-            />
-          ))}
+          <CommentFeed postId={id} />
         </div>
         <Widgets />
       </div>
 
       <SignupPrompt />
+      <CommentModal />
     </>
-  );
-}
-
-function Comment({ name, username, text }: Comment) {
-  return (
-    <div className="border-b border-gray-100">
-      <PostHeader name={name} username={username} text={text} />
-      <div className="flex space-x-14 p-3 mx-16">
-        <ChatBubbleOvalLeftEllipsisIcon
-          className="w-[22px] h-[22px]
-            cursor-not-allowed"
-        />
-        <HeartIcon
-          className="w-[22px] h-[22px]
-            cursor-not-allowed"
-        />
-        <ChartBarIcon
-          className="w-[22px] h-[22px]
-            cursor-not-allowed"
-        />
-        <ArrowUpTrayIcon
-          className="w-[22px] h-[22px]
-            cursor-not-allowed"
-        />
-      </div>
-    </div>
   );
 }

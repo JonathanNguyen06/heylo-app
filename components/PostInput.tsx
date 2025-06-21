@@ -53,16 +53,17 @@ export default function PostInput({ insideModal }: PostInputProps) {
   }
 
   async function sendComment() {
-    const postRef = doc(db, "posts", commentDetails.id);
+    const commentsRef = collection(db, "posts", commentDetails.id, "comments");
 
-    await updateDoc(postRef, {
-      comments: arrayUnion({
-        name: user.name,
-        username: user.username,
-        text: text,
-      }),
+    const docRef = await addDoc(commentsRef, {
+      name: user.name,
+      username: user.username,
+      text: text,
+      timestamp: serverTimestamp(),
+      likes: [],
     });
 
+    console.log("New comment ID:" + docRef.id);
     setText("");
     dispatch(closeCommentModal());
   }
